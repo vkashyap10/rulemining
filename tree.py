@@ -1,3 +1,8 @@
+# to run the code input file in line 29 
+# put X = all x values as numpy ndarray
+# put Y = labels as (0,1,2,3,4)  NOT ONE HOT
+# In line 40 Give name to features
+
 from sklearn import tree
 from sklearn.tree import _tree
 import pandas as pd
