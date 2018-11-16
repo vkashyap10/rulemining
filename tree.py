@@ -8,6 +8,7 @@ from sklearn.tree import _tree
 import pandas as pd
 import numpy as np
 from sklearn.cross_validation import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix
 
 def getrules(tree, features):
     tree_ = tree.tree_
@@ -26,15 +27,18 @@ def getrules(tree, features):
 
     recurse(0, 1)
 
-df = pd.read_csv("./data_150593.csv")
-X = np.array(df[["x1","x2","x3"]])
-Y = np.array(df["class"])
+df = pd.read_csv("./abc.data", sep=',',header=None)
+X = np.array(df[[0,1,2]])
+Y = np.array(df[3])
 
-Xtr, Xts, Ytr, Yts = train_test_split(X, Y,test_size=20)
+Xtr, Xts, Ytr, Yts = train_test_split(X, Y,test_size=100)
 
 
-
-clf = tree.DecisionTreeClassifier()
+clf = tree.DecisionTreeClassifier(criterion = "entropy",max_depth=4)
 clf = clf.fit(Xtr, Ytr)
+Ypd = clf.predict(Xts)  
 print(clf.score(Xts,Yts))
 getrules(clf,["x1","x2","x3"])
+print(confusion_matrix(Yts, Ypd))  
+print(classification_report(Yts, Ypd))
+print(clf.predict_proba(Xts))
